@@ -53,6 +53,6 @@ jobs:
           source_repository: docker.io/desirefikoue/portfolio:latest
           source_username: ${{ secrets.DOCKER_USERNAME }}
           source_password: ${{ secrets.DOCKER_PASSWORD }}
-          target_repository: 504063068738.dkr.ecr.us-east-1.amazonaws.com/dev/portfolio:latest
+          target_repository: 504063068738.dkr.ecr.us-east-1.amazonaws.com/portfolio:latest
           target_username: ${{ secrets.ECR_USERNAME }}
           target_password: ${{ secrets.ECR_PASSWORD }}
