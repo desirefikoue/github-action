@@ -46,13 +46,23 @@ jobs:
     deploy_job:
       needs: build_job  
       runs-on: ubuntu-latest
-      steps:  
-      - name: Sync From Docker Hub to ECR
-        uses: sebdroid/docker-sync-action@v2.0.0
-        with:
-          source_repository: docker.io/desirefikoue/portfolio:latest
-          source_username: ${{ secrets.DOCKER_USERNAME }}
-          source_password: ${{ secrets.DOCKER_PASSWORD }}
-          target_repository: 504063068738.dkr.ecr.us-east-1.amazonaws.com/portfolio:latest
-          target_username: ${{ secrets.ECR_USERNAME }}
-          target_password: ${{ secrets.ECR_PASSWORD }}
+      steps:
+        - name: Checkout
+          uses: actions/checkout@v3
+      
+        - name: Set up Docker
+          uses: docker/setup-buildx-action@v2  # Add this
+      
+        - name: Test Docker
+          run: |
+            docker version
+            docker info   
+        - name: Sync From Docker Hub to ECR
+          uses: sebdroid/docker-sync-action@v2.0.0
+          with:
+            source_repository: docker.io/desirefikoue/portfolio:latest
+            source_username: ${{ secrets.DOCKER_USERNAME }}
+            source_password: ${{ secrets.DOCKER_PASSWORD }}
+            target_repository: 504063068738.dkr.ecr.us-east-1.amazonaws.com/portfolio:latest
+            target_username: ${{ secrets.ECR_USERNAME }}
+            target_password: ${{ secrets.ECR_PASSWORD }}
