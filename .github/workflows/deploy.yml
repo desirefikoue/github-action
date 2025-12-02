@@ -47,19 +47,12 @@ jobs:
       needs: build_job  
       runs-on: ubuntu-latest
       steps:  
-        - uses: actions/checkout@v2
-        - uses: docker://ghcr.io/giopunt/aws-ecr-action:latest
-          with:
-              access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-              secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-              account_id: ${{ secrets.AWS_ACCOUNT_ID }}
-              repo: docker/repo
-              region: us-east-1
-              tags: latest,${{ github.sha }}
-              create_repo: true
-              image_scanning_configuration: true
-              set_repo_policy: true
-              
-
-             
-
+      - name: Sync From Docker Hub to ECR
+        uses: sebdroid/docker-sync-action@master
+        with:
+          source_repository: docker.io/nginx:latest
+          source_username: ${{ secrets.DOCKER_USERNAME }}
+          source_password: ${{ secrets.DOCKER_PASSWORD }}
+          target_repository: 123456789012.dkr.ecr.us-east-1.amazonaws.com/nginx:latest
+          target_username: ${{ secrets.ECR_USERNAME }}
+          target_password: ${{ secrets.ECR_PASSWORD }}
