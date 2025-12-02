@@ -1,4 +1,4 @@
-name: Demo pipeline
+name: deploy pipeline
 
 on:
     push:
@@ -45,7 +45,21 @@ jobs:
           run: cat github-action.txt  
     deploy_job:
       needs: build_job  
-      runs-on: macos-latest
-      steps:
-        - run: echo hello mac      
+      runs-on: ubuntu-latest
+      steps:  
+        - uses: actions/checkout@v2
+        - uses: docker://ghcr.io/giopunt/aws-ecr-action:latest
+          with:
+              access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+              secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+              account_id: ${{ secrets.AWS_ACCOUNT_ID }}
+              repo: docker/repo
+              region: us-east-1
+              tags: latest,${{ github.sha }}
+              create_repo: true
+              image_scanning_configuration: true
+              set_repo_policy: true
+              
+
+             
 
