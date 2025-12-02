@@ -50,7 +50,7 @@ jobs:
       - name: Sync From Docker Hub to ECR
         uses: sebdroid/docker-sync-action@master
         with:
-          source_repository: docker.io/nginx:latest
+          source_repository: docker.io/portfolio:latest
           source_username: ${{ secrets.DOCKER_USERNAME }}
           source_password: ${{ secrets.DOCKER_PASSWORD }}
           target_repository: 123456789012.dkr.ecr.us-east-1.amazonaws.com/nginx:latest
